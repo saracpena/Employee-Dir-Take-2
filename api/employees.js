@@ -7,6 +7,10 @@ employeesRouter.get("/", (req, res, next) => {
   res.send(employees);
 });
 
+employeesRouter.get("/random", (req, res, next) => {
+  res.send(employees);
+});
+
 employeesRouter.get("/:id", (req, res, next) => {
   const { id } = req.params;
   // req.params are always strings, so we need to convert `id` into a number
