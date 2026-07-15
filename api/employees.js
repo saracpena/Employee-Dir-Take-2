@@ -1,21 +1,24 @@
 import express from "express";
+export const employeesRouter = express.Router();
+import { employees } from "../db/employees.js";
 
 
-app.get("/employees", (req, res) => {
-  const employees = getEmployees();
+employeesRouter.get("/", (req, res, next) => {
   res.send(employees);
 });
 
-app.get("/employees/:id", (req, res) => {
+employeesRouter.get("/:id", (req, res, next) => {
   const { id } = req.params;
-
   // req.params are always strings, so we need to convert `id` into a number
   // before we can use it to find the employee
-  const employee = getEmployee(+id);
-
-  if (!employee) {
-    return res.status(404).send(`Employee #${id} not found.`);
+  if(isNaN(+id)) {
+    return res.status(500).send("not a number");
   }
-
+  const employee = employee.fin((employee) =>{
+    return employee.id === +id;
+  });
+  if (!employee) {
+    return res.status(500).send(`Employee #${id} not found.`);
+  }
   res.send(employee);
 });
