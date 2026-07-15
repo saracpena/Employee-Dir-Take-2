@@ -1,28 +1,50 @@
 import express from "express";
+import employees from "../db/employees.js";
+
 export const employeesRouter = express.Router();
-import { employees } from "../db/employees.js";
 
-
-employeesRouter.get("/", (req, res, next) => {
+employeesRouter.get("/", (req, res) => {
   res.send(employees);
 });
 
-employeesRouter.get("/random", (req, res, next) => {
-  res.send(employees);
+employeesRouter.get("/random", (req, res) => {
+  const randomIndex = Math.floor(Math.random() * employees.length);
+  const randomEmployee = employees[randomIndex];
+
+  res.send(randomEmployee);
 });
 
-employeesRouter.get("/:id", (req, res, next) => {
+employeesRouter.get("/:id", (req, res) => {
   const { id } = req.params;
-  // req.params are always strings, so we need to convert `id` into a number
-  // before we can use it to find the employee
-  if(isNaN(+id)) {
-    return res.status(500).send("not a number");
+
+  if (isNaN(+id)) {
+    return res.status(400).send("ID must be a number.");
   }
-  const employee = employee.fin((employee) =>{
+
+  const employee = employees.find((employee) => {
     return employee.id === +id;
   });
+
   if (!employee) {
-    return res.status(500).send(`Employee #${id} not found.`);
+    return res.status(404).send(`Employee #${id} not found.`);
   }
+
   res.send(employee);
+});
+
+employeesRouter.post("/", (req, res) => {
+  const { name } = req.body ?? {};
+
+  if (typeof name !== "string" || name.trim() === "") {
+    return res.status(400).send("A valid name is required.");
+  }
+
+  const newEmployee = {
+    id: employees.length + 1,
+    name: name.trim(),
+  };
+
+  employees.push(newEmployee);
+
+  res.status(201).send(newEmployee);
 });

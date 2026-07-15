@@ -7,17 +7,19 @@
 } */
 
 import express from "express";
-import apiRouter from "./api/index.js"
+import { router } from "./api/index.js"
 
 const app = express();
 
-app.use("/", (req, res) => {
+app.use(express.json());
+
+app.get("/", (req, res) => {
   res.send("Hello employees!");
 });
 
 // Note: this middleware has to come first! Otherwise, Express will treat
 // "random" as the argument to the `id` parameter of /employees/:id.
-app.use("/employees", apiRouter);
+app.use("/employees", router);
 
 app.use((err, req, res, next) => {
   res.status(500).send(err.message);
