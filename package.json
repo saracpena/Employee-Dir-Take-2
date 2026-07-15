@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js",
+    "dev": "nodemon index.js",
     "test": "vitest"
   },
   "imports": {
@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "morgan": "^1.11.0",
+    "nodemon": "^3.1.14",
     "supertest": "^7.1.0",
     "vitest": "^3.1.1"
   },

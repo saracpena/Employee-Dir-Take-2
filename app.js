@@ -1,5 +1,10 @@
 //!INSTALL NPM and 'npm install morgan --save-dev'
-//* ADD 
+//* ADD 'npm install nodemon --save-dev'
+/* "scripts": {
+  "start": "node server.js",
+  "dev": "nodemon server.js",
+  "test": "vitest"
+} */
 
 import express from "express";
 import apiRouter from "./api/index.js"
